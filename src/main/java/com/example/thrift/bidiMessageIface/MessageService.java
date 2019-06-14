@@ -14,7 +14,7 @@ public class MessageService {
 
     public void sendMessage(Message msg) throws org.apache.thrift.TException;
 
-    public void sendGreeting(java.lang.String name) throws org.apache.thrift.TException;
+    public void sendGreeting(String name) throws org.apache.thrift.TException;
 
   }
 
@@ -22,7 +22,7 @@ public class MessageService {
 
     public void sendMessage(Message msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void sendGreeting(java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void sendGreeting(String name, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -58,12 +58,12 @@ public class MessageService {
       sendBaseOneway("sendMessage", args);
     }
 
-    public void sendGreeting(java.lang.String name) throws org.apache.thrift.TException
+    public void sendGreeting(String name) throws org.apache.thrift.TException
     {
       send_sendGreeting(name);
     }
 
-    public void send_sendGreeting(java.lang.String name) throws org.apache.thrift.TException
+    public void send_sendGreeting(String name) throws org.apache.thrift.TException
     {
       sendGreeting_args args = new sendGreeting_args();
       args.setName(name);
@@ -111,8 +111,8 @@ public class MessageService {
       }
 
       public Void getResult() throws org.apache.thrift.TException {
-        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new java.lang.IllegalStateException("Method call not finished!");
+        if (getState() != State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
@@ -120,7 +120,7 @@ public class MessageService {
       }
     }
 
-    public void sendGreeting(java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void sendGreeting(String name, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       sendGreeting_call method_call = new sendGreeting_call(name, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -128,8 +128,8 @@ public class MessageService {
     }
 
     public static class sendGreeting_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private java.lang.String name;
-      public sendGreeting_call(java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private String name;
+      public sendGreeting_call(String name, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.name = name;
       }
@@ -143,8 +143,8 @@ public class MessageService {
       }
 
       public Void getResult() throws org.apache.thrift.TException {
-        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new java.lang.IllegalStateException("Method call not finished!");
+        if (getState() != State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
@@ -157,14 +157,14 @@ public class MessageService {
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
     private static final org.slf4j.Logger _LOGGER = org.slf4j.LoggerFactory.getLogger(Processor.class.getName());
     public Processor(I iface) {
-      super(iface, getProcessMap(new java.util.HashMap<java.lang.String, org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>>()));
+      super(iface, getProcessMap(new java.util.HashMap<String, org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>>()));
     }
 
-    protected Processor(I iface, java.util.Map<java.lang.String, org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>> processMap) {
+    protected Processor(I iface, java.util.Map<String, org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>> processMap) {
       super(iface, getProcessMap(processMap));
     }
 
-    private static <I extends Iface> java.util.Map<java.lang.String,  org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>> getProcessMap(java.util.Map<java.lang.String, org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
+    private static <I extends Iface> java.util.Map<String,  org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>> getProcessMap(java.util.Map<String, org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
       processMap.put("sendMessage", new sendMessage());
       processMap.put("sendGreeting", new sendGreeting());
       return processMap;
@@ -223,14 +223,14 @@ public class MessageService {
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
     private static final org.slf4j.Logger _LOGGER = org.slf4j.LoggerFactory.getLogger(AsyncProcessor.class.getName());
     public AsyncProcessor(I iface) {
-      super(iface, getProcessMap(new java.util.HashMap<java.lang.String, org.apache.thrift.AsyncProcessFunction<I, ? extends org.apache.thrift.TBase, ?>>()));
+      super(iface, getProcessMap(new java.util.HashMap<String, org.apache.thrift.AsyncProcessFunction<I, ? extends org.apache.thrift.TBase, ?>>()));
     }
 
-    protected AsyncProcessor(I iface, java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?>> processMap) {
+    protected AsyncProcessor(I iface, java.util.Map<String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?>> processMap) {
       super(iface, getProcessMap(processMap));
     }
 
-    private static <I extends AsyncIface> java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase,?>> getProcessMap(java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?>> processMap) {
+    private static <I extends AsyncIface> java.util.Map<String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase,?>> getProcessMap(java.util.Map<String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?>> processMap) {
       processMap.put("sendMessage", new sendMessage());
       processMap.put("sendGreeting", new sendGreeting());
       return processMap;
@@ -250,7 +250,7 @@ public class MessageService {
         return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
           public void onComplete(Void o) {
           }
-          public void onError(java.lang.Exception e) {
+          public void onError(Exception e) {
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -284,7 +284,7 @@ public class MessageService {
         return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
           public void onComplete(Void o) {
           }
-          public void onError(java.lang.Exception e) {
+          public void onError(Exception e) {
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -320,7 +320,7 @@ public class MessageService {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       MSG((short)1, "msg");
 
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+      private static final java.util.Map<String, _Fields> byName = new java.util.HashMap<String, _Fields>();
 
       static {
         for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
@@ -347,7 +347,7 @@ public class MessageService {
        */
       public static _Fields findByThriftIdOrThrow(int fieldId) {
         _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
         return fields;
       }
 
@@ -355,14 +355,14 @@ public class MessageService {
        * Find the _Fields constant that matches name, or null if its not found.
        */
       @org.apache.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
+      public static _Fields findByName(String name) {
         return byName.get(name);
       }
 
       private final short _thriftId;
-      private final java.lang.String _fieldName;
+      private final String _fieldName;
 
-      _Fields(short thriftId, java.lang.String fieldName) {
+      _Fields(short thriftId, String fieldName) {
         _thriftId = thriftId;
         _fieldName = fieldName;
       }
@@ -371,7 +371,7 @@ public class MessageService {
         return _thriftId;
       }
 
-      public java.lang.String getFieldName() {
+      public String getFieldName() {
         return _fieldName;
       }
     }
@@ -439,7 +439,7 @@ public class MessageService {
       }
     }
 
-    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable Object value) {
       switch (field) {
       case MSG:
         if (value == null) {
@@ -453,30 +453,30 @@ public class MessageService {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public java.lang.Object getFieldValue(_Fields field) {
+    public Object getFieldValue(_Fields field) {
       switch (field) {
       case MSG:
         return getMsg();
 
       }
-      throw new java.lang.IllegalStateException();
+      throw new IllegalStateException();
     }
 
     /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
-        throw new java.lang.IllegalArgumentException();
+        throw new IllegalArgumentException();
       }
 
       switch (field) {
       case MSG:
         return isSetMsg();
       }
-      throw new java.lang.IllegalStateException();
+      throw new IllegalStateException();
     }
 
     @Override
-    public boolean equals(java.lang.Object that) {
+    public boolean equals(Object that) {
       if (that == null)
         return false;
       if (that instanceof sendMessage_args)
@@ -521,7 +521,7 @@ public class MessageService {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.valueOf(isSetMsg()).compareTo(other.isSetMsg());
+      lastComparison = Boolean.valueOf(isSetMsg()).compareTo(other.isSetMsg());
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -548,8 +548,8 @@ public class MessageService {
     }
 
     @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("sendMessage_args(");
+    public String toString() {
+      StringBuilder sb = new StringBuilder("sendMessage_args(");
       boolean first = true;
 
       sb.append("msg:");
@@ -579,7 +579,7 @@ public class MessageService {
       }
     }
 
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
@@ -686,13 +686,13 @@ public class MessageService {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new sendGreeting_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new sendGreeting_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable java.lang.String name; // required
+    public @org.apache.thrift.annotation.Nullable String name; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       NAME((short)1, "name");
 
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+      private static final java.util.Map<String, _Fields> byName = new java.util.HashMap<String, _Fields>();
 
       static {
         for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
@@ -719,7 +719,7 @@ public class MessageService {
        */
       public static _Fields findByThriftIdOrThrow(int fieldId) {
         _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
         return fields;
       }
 
@@ -727,14 +727,14 @@ public class MessageService {
        * Find the _Fields constant that matches name, or null if its not found.
        */
       @org.apache.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
+      public static _Fields findByName(String name) {
         return byName.get(name);
       }
 
       private final short _thriftId;
-      private final java.lang.String _fieldName;
+      private final String _fieldName;
 
-      _Fields(short thriftId, java.lang.String fieldName) {
+      _Fields(short thriftId, String fieldName) {
         _thriftId = thriftId;
         _fieldName = fieldName;
       }
@@ -743,7 +743,7 @@ public class MessageService {
         return _thriftId;
       }
 
-      public java.lang.String getFieldName() {
+      public String getFieldName() {
         return _fieldName;
       }
     }
@@ -762,7 +762,7 @@ public class MessageService {
     }
 
     public sendGreeting_args(
-      java.lang.String name)
+      String name)
     {
       this();
       this.name = name;
@@ -787,11 +787,11 @@ public class MessageService {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public java.lang.String getName() {
+    public String getName() {
       return this.name;
     }
 
-    public sendGreeting_args setName(@org.apache.thrift.annotation.Nullable java.lang.String name) {
+    public sendGreeting_args setName(@org.apache.thrift.annotation.Nullable String name) {
       this.name = name;
       return this;
     }
@@ -811,13 +811,13 @@ public class MessageService {
       }
     }
 
-    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable Object value) {
       switch (field) {
       case NAME:
         if (value == null) {
           unsetName();
         } else {
-          setName((java.lang.String)value);
+          setName((String)value);
         }
         break;
 
@@ -825,30 +825,30 @@ public class MessageService {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public java.lang.Object getFieldValue(_Fields field) {
+    public Object getFieldValue(_Fields field) {
       switch (field) {
       case NAME:
         return getName();
 
       }
-      throw new java.lang.IllegalStateException();
+      throw new IllegalStateException();
     }
 
     /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
-        throw new java.lang.IllegalArgumentException();
+        throw new IllegalArgumentException();
       }
 
       switch (field) {
       case NAME:
         return isSetName();
       }
-      throw new java.lang.IllegalStateException();
+      throw new IllegalStateException();
     }
 
     @Override
-    public boolean equals(java.lang.Object that) {
+    public boolean equals(Object that) {
       if (that == null)
         return false;
       if (that instanceof sendGreeting_args)
@@ -893,7 +893,7 @@ public class MessageService {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.valueOf(isSetName()).compareTo(other.isSetName());
+      lastComparison = Boolean.valueOf(isSetName()).compareTo(other.isSetName());
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -920,8 +920,8 @@ public class MessageService {
     }
 
     @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("sendGreeting_args(");
+    public String toString() {
+      StringBuilder sb = new StringBuilder("sendGreeting_args(");
       boolean first = true;
 
       sb.append("name:");
@@ -948,7 +948,7 @@ public class MessageService {
       }
     }
 
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
