@@ -12,10 +12,7 @@ import org.apache.thrift.transport.TTransport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -46,23 +43,25 @@ public class TaskController {
     }
 
 
-    @RequestMapping("/task/{id}/{clientName}")
-    public String readPOI(@RequestParam() String clientName, Model model) {
+    @RequestMapping("/task/{id}/{client}")
+    public String readPOI(@PathVariable("id") long id, @PathVariable("client") String clientName, Model model) {
 
 //        taskRepository.findById(id);
 //
 //        String content = new String ( Files.readAllBytes(Paths.get(filePath)));
 //
-//        TTransport trans = clients.get(clientName);
-//        MessageService.Client client = new MessageService.Client(new TBinaryProtocol(trans));
-//
-//        try {
-//            client.sendMessage(new Message("server", content));
-//        } catch (TException e) {
-//            trans.close();
-//            clients.remove(clientName);
-//            e.printStackTrace();
-//        }
+        String content = "hello world";
+
+        TTransport trans = clients.get(clientName);
+        MessageService.Client client = new MessageService.Client(new TBinaryProtocol(trans));
+
+        try {
+            client.sendMessage(new Message("server", content));
+        } catch (TException e) {
+            trans.close();
+            clients.remove(clientName);
+            e.printStackTrace();
+        }
         return "redirect:/";
     }
 }
