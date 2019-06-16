@@ -3,6 +3,7 @@ package com.example.thrift.Controller;
 //
 import com.example.thrift.Model.ConnectEnd;
 import com.example.thrift.Model.ConnectEndRepository;
+import com.example.thrift.Model.TaskRepository;
 import org.apache.thrift.transport.TTransport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,17 @@ public class ConnectEndController {
     @Autowired
     private ConnectEndRepository connectEndRepository;
 
+    @Autowired
+    public TaskRepository taskRepository;
+
     @GetMapping("/")
     public String show(Model model) {
         model.addAttribute("users", connectEndRepository.findAll());
+        model.addAttribute("tasks", taskRepository.findAll());
         return "index";
     }
+
+
 //
 ////    @GetMapping("/signup")
 ////    public String showSignUpForm(ConnectEnd user) {

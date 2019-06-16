@@ -1,9 +1,7 @@
 package com.example.thrift;
 
 
-import com.example.thrift.Config.ApplicationConfig;
 import com.example.thrift.bidiMessageIface.MessageService;
-import com.example.thrift.Config.ConfigMapFactory;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
@@ -11,7 +9,8 @@ import org.apache.thrift.transport.TTransportException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Bean;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -29,6 +28,10 @@ public class Application {
         client();
     }
 
+    @Bean
+    public Java8TimeDialect java8TimeDialect() {
+        return new Java8TimeDialect();
+    }
 
     public static void server(ApplicationContext context) {
         Map<String, TTransport> clients = (Map<String, TTransport>) context.getBean("helloService02");

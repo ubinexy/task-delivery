@@ -16,7 +16,6 @@ public class ConnectEnd {
     private String name;
 
     public ConnectEnd() {}
-
     public ConnectEnd(String name) {
         this.name = name;
     }

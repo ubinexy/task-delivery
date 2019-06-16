@@ -25,6 +25,10 @@ targetCompatibility = 1.8
 //    }
 //}
 
+//    <groupId>org.thymeleaf.extras</groupId>
+//    <artifactId>thymeleaf-extras-java8time</artifactId>
+//    <version>3.0.1.RELEASE</version>
+
 //mainClassName = 'com.example.thrift.Application'
 
 //shadowJar {
@@ -50,6 +54,8 @@ dependencies {
     compile 'org.slf4j:jcl-over-slf4j:1.7.21'
     compile 'ch.qos.logback:logback-classic:1.1.7'
     compile 'ch.qos.logback:logback-core:1.1.7'
+    compile group: 'org.hibernate', name: 'hibernate-java8', version: '5.4.3.Final'
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.4.RELEASE'
 
     runtimeOnly 'com.h2database:h2'
 

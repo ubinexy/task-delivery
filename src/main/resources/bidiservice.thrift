@@ -9,6 +9,6 @@ struct Message {
 service MessageService {
     oneway void sendMessage(1: Message msg),
     oneway void sendGreeting(1: string name),
-
 }
+
 
