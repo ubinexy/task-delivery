@@ -14,4 +14,9 @@ public class BidiGreetingServiceImpl implements MessageService.Iface  {
     public void sendMessage(Message name) {
         System.out.println("Got message");
     }
+
+    @Override
+    public void messageCallback(String clientName, int status) {
+        System.out.println("Got callback status: " + status + "from clientName: " + clientName);
+    }
 }

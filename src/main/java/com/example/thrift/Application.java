@@ -6,6 +6,7 @@ import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -17,23 +18,23 @@ import java.util.Map;
 
 
 @SpringBootApplication
-public class Application {
-
+public class Application  {
 
     public static void main(String[] args) throws TTransportException {
-        ApplicationContext context = SpringApplication.run(Application.class);
-
+//        ApplicationContext context = SpringApplication.run(Application.class);
 //        server(context);
 
         client();
     }
+
+
 
     @Bean
     public Java8TimeDialect java8TimeDialect() {
         return new Java8TimeDialect();
     }
 
-    public static void server(ApplicationContext context) {
+    public static void server(ApplicationContext context) throws TTransportException {
         Map<String, TTransport> clients = (Map<String, TTransport>) context.getBean("helloService02");
 
         try {
@@ -42,7 +43,7 @@ public class Application {
 
             MessageService.Processor processor = new MessageService.Processor<>(handler2);
 
-            BidiMessageServer server = new BidiMessageServer(clients);
+            BidiMessageServer server = new BidiMessageServer(clients, context);
 
             server.start(processor);
 
@@ -54,4 +55,5 @@ public class Application {
     public static void client() {
         BidiMessageClient client = new BidiMessageClient("client", "localhost",9090);
     }
+
 }

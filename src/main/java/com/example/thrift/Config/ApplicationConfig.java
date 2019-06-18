@@ -11,4 +11,10 @@ public class ApplicationConfig {
         System.out.println("配置类@Bean给容器中添加组件了...");
         return new ConfigMapFactory();
     }
+
+    @Bean
+    public ConfigMapFactory2 helloService03(){
+        System.out.println("配置类@Bean给容器中添加组件了...");
+        return new ConfigMapFactory2();
+    }
 }

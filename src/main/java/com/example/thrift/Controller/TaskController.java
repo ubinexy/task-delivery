@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,6 +33,9 @@ public class TaskController {
 
     @Resource(name="helloService02")
     private Map<String, TTransport> clients;
+
+    @Resource(name="helloService03")
+    private Map<String, Long> clientTask;
 
     @Autowired
     public TaskRepository taskRepository;
@@ -46,22 +51,42 @@ public class TaskController {
     @RequestMapping("/task/{id}/{client}")
     public String readPOI(@PathVariable("id") long id, @PathVariable("client") String clientName, Model model) {
 
-//        taskRepository.findById(id);
-//
-//        String content = new String ( Files.readAllBytes(Paths.get(filePath)));
-//
-        String content = "hello world";
+        Optional<Task> task = taskRepository.findById(id);
+        String content;
+        try {
+            content= new String ( Files.readAllBytes(Paths.get(task.get().getFileName())) );
+        } catch(Exception e) {
+            e.printStackTrace();
+            return "redirect:/";
+        }
+
+//        String content = "hello world";
 
         TTransport trans = clients.get(clientName);
         MessageService.Client client = new MessageService.Client(new TBinaryProtocol(trans));
 
         try {
             client.sendMessage(new Message("server", content));
+            task.get().setStatus(1);
+            task.get().setClientName(clientName);
+            clientTask.put(clientName, task.get().getId());
+            taskRepository.save(task.get());
         } catch (TException e) {
             trans.close();
             clients.remove(clientName);
             e.printStackTrace();
         }
         return "redirect:/";
+    }
+
+
+    public void consumeTask(String clientName, int status) {
+        Optional<Task> task = taskRepository.findById(clientTask.get(clientName));
+
+        task.get().setStatus(status);
+        task.get().setClientName(clientName);
+        clientTask.remove(clientName);
+        taskRepository.save(task.get());
+
     }
 }

@@ -30,7 +30,7 @@ $(document).ready(function(){
       e.preventDefault();
       var url = $(this).attr("href");
       url = url + '/' + client_name;
-      location.href = $(this).data(url);
+      location.href = url;
       <!--	  alert(url);-->
   });
 })
@@ -64,12 +64,12 @@ $(document).ready(function(){
                             <td th:text="${task.id}"></td>
                             <td th:text="${task.fileName}"></td>
                             <td th:switch="${task.status}">
-                                <span th:case="0">stop</span>
+                                <span th:case="-11">stop</span>
                                 <span th:case="1">running</span>
-                                <span th:case="2">finished</span>
+                                <span th:case="0">finished</span>
                             </td>
+                            <td th:text="${task.clientName}"></td>
                             <td th:text="${#dates.formatISO(task.startTime)}"></td>
-                            <td th:text="${task.startTime}"> </td>
                             <td th:text="${task.endTime}"> </td>
 
                             <td><a th:href="@{/task/{id}(id=${task.id})}" class="btn task"><i class="fas fa-user-plus ml-2"></i></a></td>

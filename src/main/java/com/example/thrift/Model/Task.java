@@ -39,7 +39,7 @@ public class Task {
         this.path = path;
         this.fileName = fileName;
         this.startTime = create;
-        this.status = 0;
+        this.status = -11;
     }
 
     public long getId() {

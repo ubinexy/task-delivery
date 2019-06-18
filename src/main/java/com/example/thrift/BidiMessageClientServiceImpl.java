@@ -3,12 +3,22 @@ package com.example.thrift;
 import com.example.thrift.bidiMessageIface.Message;
 import com.example.thrift.bidiMessageIface.MessageService;
 import org.apache.thrift.TException;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.transport.TTransport;
 
 public class BidiMessageClientServiceImpl implements MessageService.Iface {
 
+    private TTransport trans;
+
+    public BidiMessageClientServiceImpl(TTransport transport) {
+        this.trans = transport;
+    }
+
     @Override
     public void sendMessage(Message msg) throws TException {
+        // receive from Server
         System.out.println("Got msg: " + msg.clientName);
+        new Thread(new sender(trans)).start();
     }
 
     @Override
@@ -16,6 +26,31 @@ public class BidiMessageClientServiceImpl implements MessageService.Iface {
         System.out.println("Got msg: " + name);
     }
 
+    @Override
+    public void messageCallback(String name, int status) throws TException {
+
+    }
+
+    public class sender implements Runnable {
+
+        private TTransport trans;
+
+        public sender(TTransport transport) {
+            this.trans = transport;
+        }
+
+        @Override
+        public void run() {
+            MessageService.Client client = new MessageService.Client(new TBinaryProtocol(trans));
+
+            try {
+                client.messageCallback("client-0", 0);
+            } catch (TException e) {
+                trans.close();
+                e.printStackTrace();
+            }
+        }
+    }
 }
 
 

@@ -25,12 +25,7 @@ public class BidiMessageClient {
 
         try {
             transport.open();
-            new Thread(new MessageReceiver(protocol, new BidiMessageClientServiceImpl() {
-                @Override
-                public void sendMessage(Message message) {
-                    System.out.println(message.message);
-                }
-            })).start();
+            new Thread(new MessageReceiver(protocol, new BidiMessageClientServiceImpl(transport))).start();
             sendtoServer("client-0");
         } catch(TTransportException e){
             e.printStackTrace();
