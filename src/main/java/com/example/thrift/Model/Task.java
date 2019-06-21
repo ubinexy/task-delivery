@@ -1,5 +1,7 @@
 package com.example.thrift.Model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,10 +23,12 @@ public class Task {
     @Column
     private String clientName;
 
-    @Column(name="create_time")
+    @Column
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm:ss")
     private LocalDateTime startTime;
 
-    @Column(name="end_time")
+    @Column
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm:ss")
     private LocalDateTime endTime;
 
     @Column
@@ -38,8 +42,8 @@ public class Task {
     public Task(String path, String fileName, LocalDateTime create) {
         this.path = path;
         this.fileName = fileName;
-        this.startTime = create;
         this.status = -11;
+        this.startTime = create;
     }
 
     public long getId() {
@@ -71,7 +75,7 @@ public class Task {
     }
 
     public LocalDateTime getStartTime() {
-        return endTime;
+        return startTime;
     }
 
     public LocalDateTime getEndTime() {

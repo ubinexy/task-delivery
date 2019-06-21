@@ -9,19 +9,19 @@ import org.apache.thrift.TException;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
 
-import org.apache.thrift.transport.TServerSocket;
-import org.apache.thrift.transport.TServerTransport;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
+import org.apache.thrift.transport.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 
+import java.net.SocketAddress;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 
 public class BidiMessageServer {
@@ -29,29 +29,33 @@ public class BidiMessageServer {
     private ApplicationContext context;
     private TServer server;
 
-    private Map<String, TTransport> clients;
+    private Map<String, TTransport> ClientTransTable;
+    private Map<TTransport, SocketAddress> TransAddrTable;
 
-
-    public BidiMessageServer(Map<String, TTransport> clients,
+    public BidiMessageServer(Map<String, TTransport> table1,
+                             Map<TTransport, SocketAddress> table2,
                              ApplicationContext context) {
-        this.clients = clients;
+        this.ClientTransTable = table1;
+        this.TransAddrTable = table2;
         this.context = context;
     }
 
-    public void start(MessageService.Processor processor) throws TTransportException {
+    public void start(int port) throws TTransportException {
 
-        TServerTransport serverTransport = new TServerSocket(9090);
+        TServerTransport serverTransport = new TServerSocket(port);
         TThreadPoolServer.Args args = new TThreadPoolServer.Args(serverTransport);
 
         TProcessorFactory processorFactory = new TProcessorFactory(null) {
             @Override
             public TProcessor getProcessor(TTransport trans) {
 
-                TProcessor p = new MessageService.Processor(new MessageService.Iface() {
+                TProcessor p = new LogProcessor(new MessageService.Processor(new MessageService.Iface() {
                     @Override
                     public void sendGreeting(String name) {
                         System.out.println("~~~~" + name);
-                        clients.put(name, trans);
+
+                        ClientTransTable.put(name, trans);
+
                     }
 
                     @Override
@@ -66,10 +70,11 @@ public class BidiMessageServer {
                         System.out.println("Got message");
                     }
 
-                });
+                }), TransAddrTable, trans);
                 return p;
             }
         };
+
         TServer server = new TThreadPoolServer(args.processorFactory(processorFactory));
 
         System.out.print("Starting to server...");
@@ -100,5 +105,25 @@ public class BidiMessageServer {
 
             System.out.println("done.");
         }
+    }
+}
+
+class LogProcessor implements TProcessor {
+    private final TTransport trans;
+    private Map<TTransport, SocketAddress> TransAddrTable;
+    private TProcessor processor;
+
+    public LogProcessor(TProcessor processor, Map<TTransport, SocketAddress>table, TTransport trans) {
+        this.processor = processor;
+        this.trans = trans;
+        this.TransAddrTable = table;
+    }
+
+    public boolean process(TProtocol in, TProtocol out) throws TException {
+        TSocket socket = (TSocket)in.getTransport();
+        SocketAddress socketAddr = socket.getSocket().getRemoteSocketAddress();
+        TransAddrTable.put(trans, socketAddr);
+
+        return processor.process(in, out);
     }
 }

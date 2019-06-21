@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.net.SocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,9 @@ public class TaskController {
 
     @Resource(name="helloService03")
     private Map<String, Long> clientTask;
+
+    @Resource(name="helloService04")
+    private Map<TTransport, SocketAddress> transAddr;
 
     @Autowired
     public TaskRepository taskRepository;
@@ -84,6 +89,7 @@ public class TaskController {
         Optional<Task> task = taskRepository.findById(clientTask.get(clientName));
 
         task.get().setStatus(status);
+        task.get().setEndTime(LocalDateTime.now());
         task.get().setClientName(clientName);
         clientTask.remove(clientName);
         taskRepository.save(task.get());

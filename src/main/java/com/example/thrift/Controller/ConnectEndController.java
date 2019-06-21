@@ -3,6 +3,7 @@ package com.example.thrift.Controller;
 //
 import com.example.thrift.Model.ConnectEnd;
 import com.example.thrift.Model.ConnectEndRepository;
+import com.example.thrift.Model.Task;
 import com.example.thrift.Model.TaskRepository;
 import org.apache.thrift.transport.TTransport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.time.LocalDateTime;
+import java.util.function.Consumer;
 
 @Controller
 public class ConnectEndController {

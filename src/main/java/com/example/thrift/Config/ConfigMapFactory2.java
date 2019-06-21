@@ -11,9 +11,16 @@ public class ConfigMapFactory2 implements FactoryBean<Map<String, List<Long>>> {
     @Override
     public Map<String, List<Long>> getObject() throws Exception {
         Map<String,List<Long>> configMap = new HashMap<String, List<Long>>();
-        System.out.println("map inited" + configMap.size());
         return configMap;
     }
+
+//public class ConfigMapFactory2 implements FactoryBean<Map<String, Long>> {
+//
+//    @Override
+//    public Map<String, Long> getObject() throws Exception {
+//        Map<String,Long> configMap = new HashMap<String, Long>();
+//        return configMap;
+//    }
 
     @Override
     public Class<?> getObjectType() {

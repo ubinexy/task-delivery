@@ -9,8 +9,10 @@ import org.apache.thrift.transport.TTransport;
 public class BidiMessageClientServiceImpl implements MessageService.Iface {
 
     private TTransport trans;
+    String name;
 
-    public BidiMessageClientServiceImpl(TTransport transport) {
+    public BidiMessageClientServiceImpl(String name, TTransport transport) {
+        this.name = name;
         this.trans = transport;
     }
 
@@ -44,7 +46,7 @@ public class BidiMessageClientServiceImpl implements MessageService.Iface {
             MessageService.Client client = new MessageService.Client(new TBinaryProtocol(trans));
 
             try {
-                client.messageCallback("client-0", 0);
+                client.messageCallback(name, 0);
             } catch (TException e) {
                 trans.close();
                 e.printStackTrace();
