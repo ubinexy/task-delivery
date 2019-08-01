@@ -2,6 +2,7 @@ package com.example.thrift.Controller;
 
 import com.example.thrift.BidiMessageServer;
 import com.example.thrift.Model.ConnectEndRepository;
+import com.example.thrift.Model.Notify;
 import com.example.thrift.Model.Task;
 import com.example.thrift.Model.TaskRepository;
 import com.example.thrift.bidiMessageIface.Message;
@@ -91,8 +92,29 @@ public class TaskController {
         task.get().setStatus(status);
         task.get().setEndTime(LocalDateTime.now());
         task.get().setClientName(clientName);
-        clientTask.remove(clientName);
+        notifyTaskStatus(task.get().getId(), status);
         taskRepository.save(task.get());
-
+        clientTask.remove(clientName);
     }
+
+    private void notifyTaskStatus(long taskId, int status) {
+
+        String apiToken = "";
+        String userId = "";
+
+        String message;
+        switch(status) {
+            case 0:
+                message = "Task #" + taskId + " finished" ;
+                break;
+            default:
+                message = "Task #" + taskId + " failed";
+        }
+
+        Notify.builderWithApiToken(apiToken)
+                .setUserId(userId)
+                .setMessage(message)
+                .push();
+    }
+
 }
